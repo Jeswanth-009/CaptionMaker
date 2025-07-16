@@ -1,7 +1,23 @@
-import tensorflow as tf
-from tensorflow.keras.applications import InceptionV3
-from tensorflow.keras.applications.inception_v3 import preprocess_input
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
+# Try to import TensorFlow, fall back to mock implementation for Python 3.13
+try:
+    import tensorflow as tf
+    from tensorflow.keras.applications import InceptionV3
+    from tensorflow.keras.applications.inception_v3 import preprocess_input
+    from tensorflow.keras.preprocessing.image import load_img, img_to_array
+    TF_AVAILABLE = True
+except ImportError:
+    try:
+        import mock_tensorflow
+        import tensorflow as tf
+        from tensorflow.keras.applications import InceptionV3
+        from tensorflow.keras.applications.inception_v3 import preprocess_input
+        from tensorflow.keras.preprocessing.image import load_img, img_to_array
+        TF_AVAILABLE = False
+        print("⚠️ Using mock TensorFlow implementation")
+    except Exception as e:
+        print(f"❌ Failed to load TensorFlow or mock: {e}")
+        TF_AVAILABLE = False
+
 import numpy as np
 import pickle
 import os

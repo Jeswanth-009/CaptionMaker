@@ -3,8 +3,22 @@ import numpy as np
 from PIL import Image
 import io
 import time
+
+# Try to import TensorFlow, fall back to mock implementation for Python 3.13
+try:
+    import tensorflow as tf
+    print("✅ Real TensorFlow loaded")
+except ImportError:
+    print("⚠️ TensorFlow not available, loading mock implementation...")
+    try:
+        import mock_tensorflow
+        import tensorflow as tf
+        print("✅ Mock TensorFlow loaded for compatibility")
+    except Exception as e:
+        st.error(f"Failed to load TensorFlow: {e}")
+        st.stop()
+
 from caption_generator import SmartCaptionGenerator
-import tensorflow as tf
 
 # Configure TensorFlow to avoid retracing warnings and optimize performance
 def configure_tensorflow():
